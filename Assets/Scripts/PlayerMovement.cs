@@ -1,8 +1,5 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-// Attach this to the Player GameObject.
-// Requires: Rigidbody2D, BoxCollider2D (Freeze Rotation Z checked on the Rigidbody2D).
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 6f;
@@ -28,15 +25,12 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         // Read input in Update (input polling should not be tied to the physics step).
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard == null) return;
-
         // When both keys are held, the most recently pressed one wins.
-        if (keyboard.aKey.wasPressedThisFrame) lastHorizontalKey = -1f;
-        if (keyboard.dKey.wasPressedThisFrame) lastHorizontalKey = 1f;
+        if (Input.GetKeyDown(KeyCode.A)) lastHorizontalKey = -1f;
+        if (Input.GetKeyDown(KeyCode.D)) lastHorizontalKey = 1f;
 
-        bool left = keyboard.aKey.isPressed;
-        bool right = keyboard.dKey.isPressed;
+        bool left = Input.GetKey(KeyCode.A);
+        bool right = Input.GetKey(KeyCode.D);
 
         if (left && right) horizontalInput = lastHorizontalKey;
         else if (left) horizontalInput = -1f;
@@ -46,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         // Recheck ground state every frame so jump input feels responsive.
         isGrounded = CheckGrounded();
 
-        if (keyboard.spaceKey.isPressed && isGrounded)
+        if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             Jump();
         }
