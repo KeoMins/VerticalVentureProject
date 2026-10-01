@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class MovePlatform : MonoBehaviour
 {
-    [SerializeField] private float moveDistance = 3f;
-    [SerializeField] private float moveSpeed = 2f;
+    public float moveDistance = 3f;
+    public float moveSpeed = 2f;
 
-    private Vector3 startPosition;
-    private Vector3 targetPosition;
+    Vector3 startPosition;
+    Vector3 targetPosition;
 
     void Start()
     {

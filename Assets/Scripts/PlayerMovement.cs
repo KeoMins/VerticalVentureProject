@@ -2,96 +2,70 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] private float moveSpeed = 6f;
-    [SerializeField] private float jumpForce = 12f;
-
-    [Header("Ground Check")]
-    [SerializeField] private LayerMask groundLayer;      // Set this to "Ground" in the Inspector
-    [SerializeField] private float groundCheckDistance = 0.1f;
+    [SerializeField] private float moveSpeed = 5f; // How fast the player moves
+    [SerializeField] private float jumpForce = 10f; // How high the player jumps
+    [SerializeField] private LayerMask groundLayer; // What counts as ground
 
     private Rigidbody2D rb;
     private BoxCollider2D col;
     private float horizontalInput;
-    private float lastHorizontalKey;
+    private float lastKey;
     private bool isGrounded;
 
-    private void Awake()
+    void Start()
     {
-        // Cache component references once instead of calling GetComponent every frame.
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
     }
 
-    private void Update()
+    void Update()
     {
-        // Read input in Update (input polling should not be tied to the physics step).
-        // When both keys are held, the most recently pressed one wins.
-        if (Input.GetKeyDown(KeyCode.A)) lastHorizontalKey = -1f;
-        if (Input.GetKeyDown(KeyCode.D)) lastHorizontalKey = 1f;
+        // Remember which key was pressed last, for when both are held
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            lastKey = -1f;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            lastKey = 1f;
+        }
 
         bool left = Input.GetKey(KeyCode.A);
         bool right = Input.GetKey(KeyCode.D);
 
-        if (left && right) horizontalInput = lastHorizontalKey;
-        else if (left) horizontalInput = -1f;
-        else if (right) horizontalInput = 1f;
-        else horizontalInput = 0f;
+        if (left && right)
+        {
+            horizontalInput = lastKey;
+        }
+        else if (left)
+        {
+            horizontalInput = -1f;
+        }
+        else if (right)
+        {
+            horizontalInput = 1f;
+        }
+        else
+        {
+            horizontalInput = 0f;
+        }
 
-        // Recheck ground state every frame so jump input feels responsive.
-        isGrounded = CheckGrounded();
+        // Check if the player is on the ground
+        Vector2 boxCenter = new Vector2(col.bounds.center.x, col.bounds.min.y);
+        Vector2 boxSize = new Vector2(col.bounds.size.x * 0.9f, 0.05f);
+        RaycastHit2D hit = Physics2D.BoxCast(boxCenter, boxSize, 0f, Vector2.down, 0.1f, groundLayer);
+        isGrounded = hit.collider != null;
 
+        // Only jump if the player is on the ground
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
-            Jump();
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        // All physics-affecting movement happens in FixedUpdate for consistent behavior
-        // regardless of frame rate.
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
-    }
-
-    private void Jump()
-    {
-        // Reset vertical velocity first so jump height is consistent even if the
-        // player is already moving upward/downward slightly (e.g. off a slope).
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-        rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
-    }
-
-    private bool CheckGrounded()
-    {
-        // Casts a short box downward from the collider's bottom edge to detect ground.
-        // Using a box (not a single raycast) avoids false negatives at the edges of platforms.
-        Bounds bounds = col.bounds;
-        Vector2 boxSize = new Vector2(bounds.size.x * 0.9f, 0.05f); // slightly narrower than the collider
-        Vector2 origin = new Vector2(bounds.center.x, bounds.min.y);
-
-        RaycastHit2D hit = Physics2D.BoxCast(
-            origin,
-            boxSize,
-            0f,
-            Vector2.down,
-            groundCheckDistance,
-            groundLayer
-        );
-
-        return hit.collider != null;
-    }
-
-    // Visualizes the ground check box in the Scene view for debugging.
-    private void OnDrawGizmosSelected()
-    {
-        if (col == null) col = GetComponent<BoxCollider2D>();
-        if (col == null) return;
-
-        Bounds bounds = col.bounds;
-        Vector2 boxSize = new Vector2(bounds.size.x * 0.9f, 0.05f);
-        Vector2 origin = new Vector2(bounds.center.x, bounds.min.y - groundCheckDistance / 2f);
-
-        Gizmos.color = isGrounded ? Color.green : Color.red;
-        Gizmos.DrawWireCube(origin, boxSize);
     }
 }

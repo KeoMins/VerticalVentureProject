@@ -594,12 +594,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ce3aabb8618c40939def5eddc1d0879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  moveSpeed: 5
+  moveSpeed: 4.75
   jumpForce: 12
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  groundCheckDistance: 0.1
 --- !u!50 &544789770
 Rigidbody2D:
   serializedVersion: 5

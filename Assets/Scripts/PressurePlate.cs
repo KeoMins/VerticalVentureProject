@@ -1,42 +1,32 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PressurePlate : MonoBehaviour
 {
-    [SerializeField] private MovePlatform platform;
+    public MovePlatform platform;
 
-    private readonly HashSet<Collider2D> occupants = new HashSet<Collider2D>();
+    int objectsOnPlate = 0; // Number of things on the plate
 
-    private void Awake()
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (platform == null)
+        // Either the player or the crate can activate the pressure plate (both have RigidBody2D)
+        if (other.attachedRigidbody != null)
         {
-            Debug.LogError("PressurePlate: no MovePlatform assigned in the Inspector.", this);
-            enabled = false;
+            objectsOnPlate++;
+            platform.MoveToEnd();
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (!IsActivator(other)) return;
-
-        occupants.Add(other);
-        platform.MoveToEnd();
-    }
-
-    private void OnTriggerExit2D(Collider2D other)
-    {
-        if (!occupants.Remove(other)) return;
-
-        if (occupants.Count == 0)
+        if (other.attachedRigidbody != null)
         {
-            platform.ReturnToStart();
-        }
-    }
+            objectsOnPlate--;
 
-    // The player and the crate both have a Rigidbody2D
-    private bool IsActivator(Collider2D other)
-    {
-        return other.attachedRigidbody != null;
+            // Only move the platform back once the plate is empty
+            if (objectsOnPlate == 0)
+            {
+                platform.ReturnToStart();
+            }
+        }
     }
 }
