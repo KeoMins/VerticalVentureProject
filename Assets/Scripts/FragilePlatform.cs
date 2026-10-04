@@ -1,26 +1,23 @@
 using System.Collections;
 using UnityEngine;
 
-// Attach this to a fragile platform GameObject.
-// Requires: SpriteRenderer, a non-trigger Collider2D (e.g. BoxCollider2D).
-// The player GameObject must be tagged "Player".
 public class FragilePlatform : MonoBehaviour
 {
     [Header("Health")]
-    [SerializeField] private float maxHealth = 2f;           // seconds of standing on it before it breaks
-    [SerializeField] private float respawnDelay = 5f;        // time after breaking before it comes back
-    [SerializeField] private float weakenedRevertDelay = 5f; // time spent weakened (undamaged) before healing back to full
+    [SerializeField] private float maxHealth = 2f; // How long the player can stand on the platform before it breaks
+    [SerializeField] private float respawnDelay = 5f; // Time it takes for the platform to respawn after breaking
+    [SerializeField] private float weakenedRevertDelay = 5f; // Time it takes for the weakened platform to go back to full health
 
     [Header("Visuals")]
-    [SerializeField] private Sprite fullSprite;
-    [SerializeField] private Sprite weakenedSprite;
+    [SerializeField] private Sprite fullSprite; // Full health platform sprite
+    [SerializeField] private Sprite weakenedSprite; // Weakened platform sprite
 
     private SpriteRenderer spriteRenderer;
     private Collider2D platformCollider;
-    private float currentHealth;
-    private bool isBroken;
-    private bool weakenedShown; // prevents re-assigning the sprite every frame once already weakened
-    private float weakenedElapsedTime; // time since the platform was last damaged while weakened
+    private float currentHealth; // Platform's current health
+    private bool isBroken; // if the platform is broken or not
+    private bool weakenedShown; // Prevents re-assigning the sprite every frame once already weakened
+    private float weakenedElapsedTime; // Time since the platform was last damaged while weakened
 
     private void Awake()
     {
@@ -31,30 +28,36 @@ public class FragilePlatform : MonoBehaviour
 
     private void Update()
     {
-        // Counts up only while weakened and not actively being damaged (that
-        // reset happens in OnCollisionStay2D below). If left alone long
-        // enough, the platform heals back to full.
-        if (!weakenedShown || isBroken) return;
+        // If the platform is full health or already broken, don't try to revert it to full health
+        if (!weakenedShown || isBroken)
+        {
+            return;
+        }
 
+        // Increased the time the platform has been in the weakened stage
         weakenedElapsedTime += Time.deltaTime;
+
+        // Weakened platform reverts back to full health if it is left alone longer than the weakenedRevertDelay threshold
         if (weakenedElapsedTime >= weakenedRevertDelay)
         {
             RevertToFull();
         }
     }
 
-    // OnCollisionStay2D fires every physics step (FixedUpdate) while the
-    // player is in contact, which is exactly what we want for "damage only
-    // while actually standing on it."
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (isBroken) return;
-        if (!collision.gameObject.CompareTag("Player")) return;
+        // If the platform is broke, don't do anything
+        if (isBroken)
+        {
+            return;
+        }
+        // Only the player should be able to wear down the platform
+        if (!collision.gameObject.CompareTag("Player"))
+        {
+            return;
+        }
 
-        // Confirm contact is vertical (top of platform), not a side bump.
-        // Using Mathf.Abs here avoids having to guess which sign convention
-        // Unity assigns to the normal - we just care that it's mostly
-        // vertical rather than horizontal.
+        // Make sure the player is on top of the platform, rather than hitting the side
         bool playerOnTop = false;
         foreach (ContactPoint2D contact in collision.contacts)
         {
@@ -64,28 +67,34 @@ public class FragilePlatform : MonoBehaviour
                 break;
             }
         }
-        if (!playerOnTop) return;
+        // If the player hits the platform on the side, it doesn't damage the platform
+        if (!playerOnTop)
+        {
+            return;
+        }
 
-        // Use fixedDeltaTime since this callback runs once per physics step.
+        // Decreased the health of the platform based on the time the player has been on it
         currentHealth -= Time.fixedDeltaTime;
 
         // Being damaged counts as "in use," so the revert-to-full countdown
         // shouldn't progress right now.
         weakenedElapsedTime = 0f;
 
+        // Swap to the weakened platform sprite when its health drops below half
         if (!weakenedShown && currentHealth <= maxHealth / 2f)
         {
             spriteRenderer.sprite = weakenedSprite;
             weakenedShown = true;
             // TODO: play "getting weak" sound here
         }
-
+        // Break the platform if it is out of health
         if (currentHealth <= 0f)
         {
             Break();
         }
     }
 
+    // Function to revert weakened platform back to full health
     private void RevertToFull()
     {
         currentHealth = maxHealth;
@@ -95,6 +104,7 @@ public class FragilePlatform : MonoBehaviour
         // TODO: play "reset" sound here
     }
 
+    // Function to make weakened platform break & disappear
     private void Break()
     {
         isBroken = true;
@@ -104,6 +114,7 @@ public class FragilePlatform : MonoBehaviour
         StartCoroutine(RespawnAfterDelay());
     }
 
+    // Funcction to make platform respawn after being broken
     private IEnumerator RespawnAfterDelay()
     {
         yield return new WaitForSeconds(respawnDelay);
