@@ -7,6 +7,9 @@ public class FragilePlatform : MonoBehaviour
     [SerializeField] private float breakDelay = 2f; // Time it takes for the platform to break after a player first jumps on it
     [SerializeField] private float respawnDelay = 4f; // Time it takes for the platform to respawn after breaking
 
+    [Header("Detection")]
+    [SerializeField] private float topTolerance = 0.1f; // How far below the top edge the player's feet can be and still count as landing on top. Lower this for small objects
+
     [Header("Visuals")]
     [SerializeField] private Sprite fullSprite; // Full health platform sprite
     [SerializeField] private Sprite weakenedSprite; // Weakened platform sprite
@@ -35,7 +38,6 @@ public class FragilePlatform : MonoBehaviour
         }
 
         // Players can't hit the bottom or side of the platform to trigger the timer
-        const float topTolerance = 0.1f;
         if (collision.collider.bounds.min.y < platformCollider.bounds.max.y - topTolerance)
         {
             return;
