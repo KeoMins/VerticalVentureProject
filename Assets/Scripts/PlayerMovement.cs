@@ -8,6 +8,8 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private BoxCollider2D col;
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
     private float horizontalInput;
     private float lastKey;
     private bool isGrounded;
@@ -16,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -62,6 +66,17 @@ public class PlayerMovement : MonoBehaviour
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+
+        // Face the direction of movement (sprites face right by default)
+        if (horizontalInput != 0f)
+        {
+            spriteRenderer.flipX = horizontalInput < 0f;
+        }
+
+        // Drive the animator
+        animator.SetFloat("speed", Mathf.Abs(horizontalInput));
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+        animator.SetBool("isGrounded", isGrounded);
     }
 
     void FixedUpdate()
