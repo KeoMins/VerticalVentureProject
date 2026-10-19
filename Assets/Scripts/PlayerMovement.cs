@@ -14,12 +14,24 @@ public class PlayerMovement : MonoBehaviour
     private float lastKey;
     private bool isGrounded;
 
+    // Sound effects
+    [SerializeField] private float minAirTimeForLanding = 0.1f; // Shortest fall that plays the landing sound, so ground flicker stays silent
+    private AudioSource footstepLoop;
+    private bool wasGrounded;
+    private float airTime;
+    private float lastJumpSoundTime;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        if (SoundEffects.Instance != null)
+        {
+            footstepLoop = SoundEffects.AddLoop(gameObject, SoundEffects.Instance.footsteps);
+        }
     }
 
     void Update()
@@ -60,11 +72,36 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hit = Physics2D.BoxCast(boxCenter, boxSize, 0f, Vector2.down, 0.1f, groundLayer);
         isGrounded = hit.collider != null;
 
+        // Play the landing sound when touching the ground after a real fall or jump
+        if (!isGrounded)
+        {
+            airTime += Time.deltaTime;
+        }
+        else
+        {
+            if (!wasGrounded && airTime >= minAirTimeForLanding && SoundEffects.Instance != null)
+            {
+                SoundEffects.Play(SoundEffects.Instance.land);
+            }
+            airTime = 0f;
+        }
+        wasGrounded = isGrounded;
+
+        // Footsteps loop only while walking on the ground
+        SoundEffects.SetLoop(footstepLoop, horizontalInput != 0f && isGrounded);
+
         // Only jump if the player is on the ground
         if (Input.GetKey(KeyCode.Space) && isGrounded)
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
+
+            // The ground check stays true for a few frames after leaving the ground, so limit the sound to once per jump
+            if (Time.time - lastJumpSoundTime > 0.3f && SoundEffects.Instance != null)
+            {
+                SoundEffects.Play(SoundEffects.Instance.jump);
+                lastJumpSoundTime = Time.time;
+            }
         }
 
         // Face the direction of movement (sprites face right by default)

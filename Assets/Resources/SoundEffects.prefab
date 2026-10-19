@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6072640855276920124
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 52028565498692754}
+  - component: {fileID: 201740081136464656}
+  m_Layer: 0
+  m_Name: SoundEffects
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &52028565498692754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072640855276920124}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &201740081136464656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6072640855276920124}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e2fe64586f0411b8e13242ee177926, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SoundEffects
+  jump: {fileID: 8300000, guid: d1f57625e57809846be9fc26415e6224, type: 3}
+  land: {fileID: 0}
+  footsteps: {fileID: 0}
+  trophyAmbient: {fileID: 0}
+  trophyCollected: {fileID: 8300000, guid: 1091dc6164c42ff4e9b709a59b05e668, type: 3}
+  plateDown: {fileID: 8300000, guid: 47f493245f13fd547a724c32be9ce6b2, type: 3}
+  plateUp: {fileID: 8300000, guid: ca3b02b3305866f4a96799263833b3de, type: 3}
+  crateMoving: {fileID: 8300000, guid: d3c172d97b206894ca20f5671a25561c, type: 3}
+  platformWeak: {fileID: 8300000, guid: 4ccc990a32aa9794999ab198738bf68b, type: 3}
+  platformBreak: {fileID: 8300000, guid: e907fd0b1b2634d44a927fb2e5e23ea8, type: 3}
+  platformRespawn: {fileID: 8300000, guid: d6077e38c078eae4cb048c732dc154ec, type: 3}
+  platformMoving: {fileID: 0}
+  masterVolume: 1

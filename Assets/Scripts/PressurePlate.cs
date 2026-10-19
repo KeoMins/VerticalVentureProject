@@ -31,6 +31,12 @@ public class PressurePlate : MonoBehaviour
         {
             objectsOnPlate++;
             platform.MoveToEnd();
+
+            // Only click when the plate first goes down, not for every extra object
+            if (objectsOnPlate == 1 && SoundEffects.Instance != null)
+            {
+                SoundEffects.Play(SoundEffects.Instance.plateDown);
+            }
         }
     }
 
@@ -44,6 +50,10 @@ public class PressurePlate : MonoBehaviour
             if (objectsOnPlate == 0)
             {
                 platform.ReturnToStart();
+                if (SoundEffects.Instance != null)
+                {
+                    SoundEffects.Play(SoundEffects.Instance.plateUp);
+                }
             }
         }
     }

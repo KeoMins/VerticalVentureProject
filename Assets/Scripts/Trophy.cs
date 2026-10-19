@@ -10,10 +10,34 @@ public class Trophy : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private bool collected;
 
+    [Header("Ambient sound")]
+    [SerializeField] private float ambientInterval = 3f; // Seconds between ambient chimes
+    [SerializeField] private float ambientRange = 40f; // Distance from the player at which the chime becomes silent
+    [SerializeField] private float ambientVolume = 0.8f; // Chime volume when the player is right next to the trophy
+
     void Start()
     {
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        StartCoroutine(AmbientSound());
+    }
+
+    // Quietly chime now and then, louder the closer the player is
+    IEnumerator AmbientSound()
+    {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        while (!collected)
+        {
+            yield return new WaitForSeconds(ambientInterval);
+
+            if (player != null && !collected && SoundEffects.Instance != null)
+            {
+                float distance = Vector2.Distance(player.transform.position, transform.position);
+                float volume = ambientVolume * Mathf.Clamp01(1f - distance / ambientRange);
+                SoundEffects.Play(SoundEffects.Instance.trophyAmbient, volume);
+            }
+        }
     }
 
     void OnTriggerEnter2D(Collider2D other)
@@ -26,6 +50,12 @@ public class Trophy : MonoBehaviour
         collected = true;
         animator.SetTrigger("Collected");
         winScreen.SetActive(true);
+
+        // Audio keeps playing while the game is frozen with Time.timeScale = 0
+        if (SoundEffects.Instance != null)
+        {
+            SoundEffects.Play(SoundEffects.Instance.trophyCollected);
+        }
 
         // Freeze the game. The Animator uses Unscaled Time so the Collected animation still plays.
         Time.timeScale = 0f;

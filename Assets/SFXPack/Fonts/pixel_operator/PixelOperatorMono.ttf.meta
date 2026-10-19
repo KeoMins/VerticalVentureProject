@@ -1,0 +1,28 @@
+fileFormatVersion: 2
+guid: 1de340ef8fc6f354ab2355b57331896c
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Pixel Operator Mono
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 406196
+  packageName: Timbeaux's 2D Fantasy SFX Pack
+  packageVersion: 1.0.0
+  assetPath: Assets/SFXPack/Fonts/pixel_operator/PixelOperatorMono.ttf
+  uploadId: 991194

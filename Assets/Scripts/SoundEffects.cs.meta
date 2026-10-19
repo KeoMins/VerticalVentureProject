@@ -1,0 +1,23 @@
+fileFormatVersion: 2
+guid: 96e2fe64586f0411b8e13242ee177926
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - jump: {instanceID: 0}
+  - land: {instanceID: 0}
+  - footsteps: {instanceID: 0}
+  - trophyAmbient: {instanceID: 0}
+  - trophyCollected: {instanceID: 0}
+  - plateDown: {instanceID: 0}
+  - plateUp: {instanceID: 0}
+  - crateMoving: {instanceID: 0}
+  - platformWeak: {instanceID: 0}
+  - platformBreak: {instanceID: 0}
+  - platformRespawn: {instanceID: 0}
+  - platformMoving: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

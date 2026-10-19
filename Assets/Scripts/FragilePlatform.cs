@@ -55,20 +55,20 @@ public class FragilePlatform : MonoBehaviour
         // Halfway through the timer, swap to the weakened sprite
         yield return new WaitForSeconds(breakDelay / 2f);
         spriteRenderer.sprite = weakenedSprite;
-        // TODO: play "getting weak" sound here
+        if (SoundEffects.Instance != null) SoundEffects.Play(SoundEffects.Instance.platformWeak);
 
         // Second half of the timer, then the platform breaks
         yield return new WaitForSeconds(breakDelay / 2f);
         spriteRenderer.enabled = false;
         platformCollider.enabled = false;
-        // TODO: play "breaking" sound here
+        if (SoundEffects.Instance != null) SoundEffects.Play(SoundEffects.Instance.platformBreak);
 
         yield return new WaitForSeconds(respawnDelay);
 
         spriteRenderer.sprite = fullSprite;
         spriteRenderer.enabled = true;
         platformCollider.enabled = true;
-        // TODO: play "reset" sound here
+        if (SoundEffects.Instance != null) SoundEffects.Play(SoundEffects.Instance.platformRespawn);
 
         isTriggered = false;
     }
