@@ -33,6 +33,11 @@ public static class SoundEffectsSetup
         fx.platformRespawn = Load("Interaction/Power Up.wav");
         fx.platformMoving = Load("Weather/FrozenLatch.wav");
 
+        fx.menuOpen = Load("UI/Menu Open.wav");
+        fx.menuClose = Load("UI/Menu Close.wav");
+        fx.buttonHover = Load("UI/Tab Switch.wav");
+        fx.buttonClick = Load("UI/Button.wav");
+
         PrefabUtility.SaveAsPrefabAsset(root, PrefabPath);
         Object.DestroyImmediate(root);
 

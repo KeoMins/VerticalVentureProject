@@ -56,4 +56,8 @@ MonoBehaviour:
   platformBreak: {fileID: 8300000, guid: e907fd0b1b2634d44a927fb2e5e23ea8, type: 3}
   platformRespawn: {fileID: 8300000, guid: d6077e38c078eae4cb048c732dc154ec, type: 3}
   platformMoving: {fileID: 0}
+  menuOpen: {fileID: 8300000, guid: c68dab6dc8d716e459e5e96f1aa3f965, type: 3}
+  menuClose: {fileID: 8300000, guid: 9618a8bfe3be6874fa7aeb1970435d05, type: 3}
+  buttonHover: {fileID: 8300000, guid: 8cb63423060253b4c9ef0f6d215e275e, type: 3}
+  buttonClick: {fileID: 8300000, guid: 3aedc0afb101a8c45b8a17b8432c3282, type: 3}
   masterVolume: 1

@@ -30,6 +30,12 @@ public class SoundEffects : MonoBehaviour
     [Header("Moving platform")]
     public AudioClip platformMoving; // Loops while the platform moves
 
+    [Header("Pause menu")]
+    public AudioClip menuOpen;
+    public AudioClip menuClose;
+    public AudioClip buttonHover;
+    public AudioClip buttonClick;
+
     [Range(0f, 1f)] public float masterVolume = 1f;
 
     private AudioSource oneShotSource;
@@ -60,6 +66,7 @@ public class SoundEffects : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         oneShotSource = gameObject.AddComponent<AudioSource>();
         oneShotSource.playOnAwake = false;
+        oneShotSource.ignoreListenerPause = true; // Menu sounds must play while the game is paused
     }
 
     // Play a clip once. Safe to call when the manager or clip is missing

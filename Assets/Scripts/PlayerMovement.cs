@@ -36,6 +36,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        // The game is frozen (pause menu or win screen), so ignore input
+        if (Time.timeScale == 0f)
+        {
+            return;
+        }
+
         // Remember which key was pressed last, for when both are held
         if (Input.GetKeyDown(KeyCode.A))
         {
