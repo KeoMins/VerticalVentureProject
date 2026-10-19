@@ -4,7 +4,25 @@ public class PressurePlate : MonoBehaviour
 {
     public MovePlatform platform;
 
+    public float pressDepth = 0.05f; // How far the plate sinks when stepped on
+    public float pressSpeed = 2f;    // How fast it sinks and rises
+
     int objectsOnPlate = 0; // Number of things on the plate
+
+    Vector3 upPosition;
+    Vector3 downPosition;
+
+    void Start()
+    {
+        upPosition = transform.position;
+        downPosition = upPosition + Vector3.down * pressDepth;
+    }
+
+    void Update()
+    {
+        Vector3 target = objectsOnPlate > 0 ? downPosition : upPosition;
+        transform.position = Vector3.MoveTowards(transform.position, target, pressSpeed * Time.deltaTime);
+    }
 
     void OnTriggerEnter2D(Collider2D other)
     {
