@@ -83,7 +83,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 3059113826426795209, guid: e242b62e7e6caee439fa1d024a8fa5bb, type: 3}
+  m_Sprite: {fileID: 113249620649802049, guid: e242b62e7e6caee439fa1d024a8fa5bb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -152,7 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bc30bfad9c8745dcb3eb8cda6f5d678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  breakDelay: 2
-  respawnDelay: 3
+  breakDelay: 1.5
+  respawnDelay: 2
+  topTolerance: 0.1
   fullSprite: {fileID: 113249620649802049, guid: e242b62e7e6caee439fa1d024a8fa5bb, type: 3}
-  weakenedSprite: {fileID: -8422671310359681190, guid: e242b62e7e6caee439fa1d024a8fa5bb, type: 3}
+  weakenedSprite: {fileID: 1780132154582644755, guid: 7e73d0165dccc3745b6d9f293e19161c, type: 3}
