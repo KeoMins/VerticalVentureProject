@@ -26,7 +26,7 @@ public class PressurePlate : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // Either the player or the crate can activate the pressure plate (both have RigidBody2D)
+        // Either the player or the crate can activate the pressure plate
         if (other.attachedRigidbody != null)
         {
             objectsOnPlate++;

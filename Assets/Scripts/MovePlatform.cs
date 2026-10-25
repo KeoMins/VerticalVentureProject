@@ -4,8 +4,8 @@ using UnityEngine.Serialization;
 public class MovePlatform : MonoBehaviour
 {
     [FormerlySerializedAs("moveDistance")]
-    public float moveDistanceX = 3f; // How far the platform moves along the x-axis (negative = left)
-    public float moveDistanceY = 0f; // How far the platform moves along the y-axis (negative = down)
+    public float moveDistanceX = 3f; // How far the platform moves along the x-axis
+    public float moveDistanceY = 0f; // How far the platform moves along the y-axis
     public float moveSpeed = 2f; // How fast the platform moves
 
     Vector3 startPosition;

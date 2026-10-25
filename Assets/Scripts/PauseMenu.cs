@@ -3,13 +3,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-// Pause menu opened with Esc: Resume, Restart and Exit. It builds its own UI and creates itself
-// when the game starts, so nothing needs to be added to the scene.
+// Pause menu opened with Esc: Resume, Restart and Exit
 public class PauseMenu : MonoBehaviour
 {
     private GameObject panel;
     private bool isPaused;
-    private float previousTimeScale = 1f; // Restored on resume, so a game already frozen (e.g. trophy win screen) stays frozen
+    private float previousTimeScale = 1f; // Restored on resume
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     private static void Create()
@@ -30,7 +29,6 @@ public class PauseMenu : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    // A reloaded scene may come without an EventSystem, and the buttons need one
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         EnsureEventSystem();
@@ -56,7 +54,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
         previousTimeScale = Time.timeScale;
         Time.timeScale = 0f;
-        AudioListener.pause = true; // Silences the game's sounds (loops, chimes). Menu sounds ignore this
+        AudioListener.pause = true; // Silences the game's sounds, menu sounds ignore this
 
         panel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null); // Clear leftovers from earlier clicks so no button starts highlighted

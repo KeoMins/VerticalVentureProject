@@ -1,7 +1,6 @@
 using UnityEngine;
 
-// Plays the game's sound effects. A SoundEffects prefab lives in Assets/Resources and is created
-// automatically when the game starts (build it with Tools > Setup Sound Effects).
+// Plays the game's sound effects
 public class SoundEffects : MonoBehaviour
 {
     public static SoundEffects Instance { get; private set; }

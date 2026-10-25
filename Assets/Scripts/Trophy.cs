@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Trophy : MonoBehaviour
 {
-    [SerializeField] private GameObject winScreen; // Canvas with the "You've Won!" text (child of this prefab)
+    [SerializeField] private GameObject winScreen; // Canvas with "You've Won!" text
     [SerializeField] private float collectedDuration = 0.4f; // How long the Collected animation plays before the strawberry hides
 
     private Animator animator;

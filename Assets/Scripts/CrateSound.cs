@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Plays a scraping loop while the crate slides along the ground
+// Plays a sliding sound loop while the crate gets pushed along the ground
 public class CrateSound : MonoBehaviour
 {
     [SerializeField] private float minSpeed = 0.2f; // Horizontal speed needed to count as moving

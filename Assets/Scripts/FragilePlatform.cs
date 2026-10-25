@@ -8,7 +8,7 @@ public class FragilePlatform : MonoBehaviour
     [SerializeField] private float respawnDelay = 4f; // Time it takes for the platform to respawn after breaking
 
     [Header("Detection")]
-    [SerializeField] private float topTolerance = 0.1f; // How far below the top edge the player's feet can be and still count as landing on top. Lower this for small objects
+    [SerializeField] private float topTolerance = 0.1f; // How far below the top edge the player's feet can be and still count as landing on top
 
     [Header("Visuals")]
     [SerializeField] private Sprite fullSprite; // Full health platform sprite
